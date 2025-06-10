@@ -1,39 +1,35 @@
-package accountservice.entity;
+package accountservice.dto.request;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(name = "account")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+@Getter
+@Setter
+public class AccountDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@NotNull
 	private Long id;
 
-	@Column(nullable = false, unique = true)
+	@NotEmpty
 	private String username;
 
-	@Column(nullable = false)
+	@NotEmpty
 	private String password;
 
-	@Column(name = "first_name", nullable = false)
+	@NotEmpty
 	private String firstName;
 
-	@Column(name = "last_name", nullable = false)
+	@NotEmpty
 	private String lastName;
 
-	@Column(nullable = false, unique = true)
+	@NotEmpty
 	private String number;
 
 	public Long getId() {
@@ -84,7 +80,8 @@ public class Account {
 		this.number = number;
 	}
 
-	public Account(Long id, String username, String password, String firstName, String lastName, String number) {
+	public AccountDTO(@NotNull Long id, @NotEmpty String username, @NotEmpty String password,
+			@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String number) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -92,11 +89,6 @@ public class Account {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.number = number;
-	}
-
-	public Account() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -1,9 +1,10 @@
 package accountservice.service;
 
-import accountservice.dto.request.Account;
+import accountservice.dto.request.AccountDTO;
 
 public interface AccountService {
-	
-	void createAccount(Account accountId);
-	void modifyAccount(String accountId, Account account);
+
+	void createAccount(AccountDTO account, String uuid);
+
+	void modifyAccount(Long accountId, AccountDTO account, String uuid);
 }

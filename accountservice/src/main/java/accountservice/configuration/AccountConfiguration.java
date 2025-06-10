@@ -19,7 +19,7 @@ public class AccountConfiguration {
 
 		return httpSecuirty.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth.requestMatchers(Constants.CREATE_ACCOUNT_URL).permitAll())
-				.authorizeHttpRequests(auth -> auth.requestMatchers(Constants.MODIFY_ACCOUNT_URL).permitAll()).build();
+				.authorizeHttpRequests(auth -> auth.requestMatchers(Constants.MODIFY_ACCOUNT_URL).authenticated()).build();
 	}
 
 	@Bean
