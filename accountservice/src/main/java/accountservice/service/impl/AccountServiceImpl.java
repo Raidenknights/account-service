@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import accountservice.dto.AccountDTOResponse;
 import accountservice.dto.request.AccountDTO;
 import accountservice.entity.Account;
+import accountservice.exceptions.NoAccountExistsException;
 import accountservice.repository.AccountRepository;
 import accountservice.service.AccountService;
 
@@ -25,16 +27,23 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public void createAccount(AccountDTO accountDto, String uuid) {
-		logger.debug("enterting create account with uuid:"+uuid);
+		logger.debug("enterting create account with uuid:" + uuid);
 		Account accountEntity = mapToEntityAccount(accountDto);
 		accountRepository.save(accountEntity);
+		logger.debug("exiting create account with uuid:" + uuid);
 	}
 
 	@Override
 
 	public void modifyAccount(Long accountId, AccountDTO account, String uuid) {
-		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public AccountDTOResponse fetchAccountDetails(Long accountId, String uuid) throws NoAccountExistsException {
+		logger.debug("entering fetchAccountDetails() method with uuid:" + uuid);
+
+		return mapToAccountDTOResponse(accountRepository.getReferenceById(accountId));
 	}
 
 	private Account mapToEntityAccount(AccountDTO account) {
@@ -47,6 +56,19 @@ public class AccountServiceImpl implements AccountService {
 		accountEntity.setNumber(account.getNumber());
 
 		return accountEntity;
+	}
+
+	private AccountDTOResponse mapToAccountDTOResponse(Account account) {
+
+		AccountDTOResponse accountDTOResponse = new AccountDTOResponse();
+
+		accountDTOResponse.setFirstName(account.getFirstName());
+		accountDTOResponse.setLastName(account.getLastName());
+		accountDTOResponse.setUsername(account.getUsername());
+		accountDTOResponse.setNumber(account.getNumber());
+		accountDTOResponse.setId(account.getId());
+
+		return accountDTOResponse;
 	}
 
 }

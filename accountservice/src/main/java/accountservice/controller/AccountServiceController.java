@@ -8,10 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import accountservice.constants.Constants;
+import accountservice.dto.AccountDTOResponse;
 import accountservice.dto.request.AccountDTO;
 import accountservice.service.AccountService;
 
@@ -26,7 +28,7 @@ public class AccountServiceController {
 		this.accountService = accountService;
 	}
 
-	@GetMapping(path = Constants.CREATE_ACCOUNT_URL)
+	@PostMapping(path = Constants.CREATE_ACCOUNT_URL)
 	public ResponseEntity<Object> createCustomerAccount(@Valid @RequestBody AccountDTO account, String uuid) {
 
 		logger.debug("Entering createCustomerAccount() method with UUID:" + uuid);
@@ -36,7 +38,7 @@ public class AccountServiceController {
 		return new ResponseEntity<>(Constants.ACCOUNT_CREATED_SUCCESS, HttpStatus.CREATED);
 	}
 
-	@PostMapping(path = Constants.MODIFY_ACCOUNT_URL)
+	@PutMapping(path = Constants.MODIFY_ACCOUNT_URL)
 	public ResponseEntity<Object> modifyCustomerDetails(@Valid @RequestBody AccountDTO account, String uuid) {
 
 		logger.debug("Entering modifyCustomerDetails() method with uuid:" + uuid);
@@ -44,6 +46,12 @@ public class AccountServiceController {
 		logger.debug("exiting modifyCustomerDetails() method with uuid:" + uuid);
 		return null;
 
+	}
+
+	@GetMapping(path = Constants.FETCH_ACCOUNT_DETAILS)
+	public ResponseEntity<AccountDTOResponse> fetchAccountDetails() {
+
+		return null;
 	}
 
 }
