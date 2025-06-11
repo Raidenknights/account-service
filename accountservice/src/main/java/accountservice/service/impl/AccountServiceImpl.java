@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import accountservice.dto.AccountDTOResponse;
 import accountservice.dto.request.AccountDTO;
@@ -26,6 +27,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	@Transactional
 	public void createAccount(AccountDTO accountDto, String uuid) {
 		logger.debug("enterting create account with uuid:" + uuid);
 		Account accountEntity = mapToEntityAccount(accountDto);
@@ -34,16 +36,17 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-
+	@Transactional
 	public void modifyAccount(Long accountId, AccountDTO account, String uuid) {
 
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public AccountDTOResponse fetchAccountDetails(Long accountId, String uuid) throws NoAccountExistsException {
 		logger.debug("entering fetchAccountDetails() method with uuid:" + uuid);
 
-		return mapToAccountDTOResponse(accountRepository.getReferenceById(accountId));
+		return mapToAccountDTOResponse(accountRepository.getById(accountId));
 	}
 
 	private Account mapToEntityAccount(AccountDTO account) {
