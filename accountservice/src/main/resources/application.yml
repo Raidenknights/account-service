@@ -1,0 +1,10 @@
+server:
+ port: 8081
+spring:
+  application:
+    name: AccountService
+  datasource:
+    url: jdbc:postgresql://localhost:5432/CustomerDB-Dev
+    username: postgres
+    password: Harami@1
+    driver-class-name: org.postgresql.Driver
