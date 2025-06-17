@@ -6,26 +6,32 @@ services:
     container_name: postgres-db
     environment:
       POSTGRES_DB: customerdb
-      POSTGRES_USER: manas
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: XYZ1234
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - spring-net
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   springboot-app:
     build: .
     container_name: account-service-app
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
-      - postgres
+          postgres:
+            condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/customerdb
-      SPRING_DATASOURCE_USERNAME: manas
-      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: XYZ1234
     networks:
       - spring-net
 
